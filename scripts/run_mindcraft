@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# run_mindcraft - Play Minecraft Mobile on PC with Full Controls over USB
+# ==============================================================================
+
+set -e
+
+# Setup PATH & Scrcpy environment
+export PATH="$HOME/.local/bin:$PATH"
+export SCRCPY_SERVER_PATH="$HOME/.local/share/scrcpy/scrcpy-server"
+export ADB="$HOME/.local/bin/adb"
+
+# Colors for terminal output
+BOLD="\033[1m"
+GREEN="\033[32m"
+CYAN="\033[36m"
+YELLOW="\033[33m"
+RED="\033[31m"
+RESET="\033[0m"
+
+echo -e "${BOLD}${CYAN}====================================================================${RESET}"
+echo -e "${BOLD}${GREEN}        🎮 MINECRAFT MOBILE ON PC (USB Display & Controls)        ${RESET}"
+echo -e "${BOLD}${CYAN}====================================================================${RESET}"
+
+# Verify ADB and Scrcpy are available
+if ! command -v scrcpy >/dev/null 2>&1; then
+    echo -e "${RED}Error: scrcpy is not installed or not in PATH!${RESET}"
+    exit 1
+fi
+
+if ! command -v adb >/dev/null 2>&1; then
+    echo -e "${RED}Error: adb is not installed or not in PATH!${RESET}"
+    exit 1
+fi
+
+# Ensure adb server is running
+adb start-server >/dev/null 2>&1
+
+# Check device connection
+echo -e "${CYAN}Checking USB connection...${RESET}"
+
+# Function to get count of connected devices
+get_device_count() {
+    adb devices | sed '1d' | grep -v '^[[:space:]]*$' | wc -l
+}
+
+# Function to check if any device is unauthorized
+has_unauthorized() {
+    adb devices | grep -q "unauthorized"
+}
+
+# Check if phone is plugged in
+if [ "$(get_device_count)" -eq 0 ]; then
+    echo -e "\n${YELLOW}🔌 No phone detected via USB cable.${RESET}"
+    echo -e "${BOLD}Please follow these quick steps on your phone:${RESET}"
+    echo -e "  1. Connect your phone to this laptop using a USB data cable."
+    echo -e "  2. Go to ${BOLD}Settings -> About Phone${RESET} and tap ${BOLD}'Build Number'${RESET} 7 times to enable Developer Options."
+    echo -e "  3. Go to ${BOLD}Settings -> Developer Options${RESET} and turn ${BOLD}ON 'USB Debugging'${RESET}."
+    echo -e "     ${YELLOW}(Note for Xiaomi/Redmi/POCO/Realme: Also turn ON 'USB Debugging (Security Settings)' to allow keyboard/mouse control)${RESET}"
+    echo -e "\n${CYAN}⏳ Waiting for your phone to be plugged in... (Press Ctrl+C to stop)${RESET}"
+    adb wait-for-device
+fi
+
+# Handle unauthorized state
+while has_unauthorized; do
+    echo -e "\n${YELLOW}⚠️  Device detected, but UNAUTHORIZED!${RESET}"
+    echo -e "${BOLD}👉 Check your phone screen now:${RESET}"
+    echo -e "   A prompt saying ${CYAN}'Allow USB debugging?'${RESET} should appear."
+    echo -e "   Check the box ${GREEN}'Always allow from this computer'${RESET} and tap ${GREEN}'Allow'${RESET}."
+    echo -e "${CYAN}Waiting for authorization...${RESET}"
+    sleep 2
+done
+
+# Wait for device to be fully ready
+adb wait-for-device
+
+DEVICE_MODEL=$(adb shell getprop ro.product.model 2>/dev/null | tr -d '\r\n')
+[ -z "$DEVICE_MODEL" ] && DEVICE_MODEL="Android Device"
+
+echo -e "\n${GREEN}✅ Phone Connected:${RESET} ${BOLD}${DEVICE_MODEL}${RESET}"
+
+# Check for Minecraft packages
+MINECRAFT_PKG=""
+if adb shell pm list packages 2>/dev/null | grep -q "com.mojang.minecraftpe"; then
+    MINECRAFT_PKG="com.mojang.minecraftpe"
+elif adb shell pm list packages 2>/dev/null | grep -q "com.mojang.minecrafttrialpe"; then
+    MINECRAFT_PKG="com.mojang.minecrafttrialpe"
+fi
+
+if [ -n "$MINECRAFT_PKG" ]; then
+    echo -e "${GREEN}⛏️  Found Minecraft ($MINECRAFT_PKG). Launching game on phone...${RESET}"
+    adb shell monkey -p "$MINECRAFT_PKG" -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1 || true
+    sleep 1
+else
+    echo -e "${YELLOW}ℹ️  Minecraft package not automatically found. Launching screen mirror so you can open it...${RESET}"
+fi
+
+echo -e "\n${BOLD}${CYAN}🎮 Controls & Shortcuts:${RESET}"
+echo -e "  • ${BOLD}Mouse Look & Movement:${RESET} Full PC-style relative mouse control (360° free look)"
+echo -e "  • ${BOLD}Attack / Mine:${RESET} Left Click"
+echo -e "  • ${BOLD}Place / Interact:${RESET} Right Click"
+echo -e "  • ${BOLD}Move / Jump / Sneak:${RESET} WASD | Space | Shift"
+echo -e "  • ${BOLD}Hotbar Items:${RESET} Mouse Scroll Wheel or Number keys 1-9"
+echo -e "  • ${BOLD}Inventory:${RESET} E key"
+echo -e "  • ${BOLD}Release Mouse Cursor:${RESET} Press ${BOLD}[Left Alt]${RESET} or ${BOLD}[Super]${RESET} to free your cursor"
+echo -e "  • ${BOLD}Toggle Fullscreen:${RESET} Press ${BOLD}[Alt + F]${RESET} or ${BOLD}[F11]${RESET}"
+echo -e "  • ${BOLD}Battery Saver:${RESET} Phone screen turns off automatically to stay cool"
+echo -e "  • ${BOLD}Audio:${RESET} Game sounds are forwarded directly to your laptop speakers"
+echo -e "${CYAN}--------------------------------------------------------------------${RESET}"
+echo -e "${GREEN}Starting high-performance display stream (60 FPS / 20 Mbps)...${RESET}\n"
+
+# Run scrcpy with gaming-optimized UHID controls
+# UHID provides physical USB keyboard, mouse, and gamepad simulation to Android
+if ! scrcpy \
+    --keyboard=uhid \
+    --mouse=uhid \
+    --gamepad=uhid \
+    --stay-awake \
+    --turn-screen-off \
+    --video-bit-rate=20M \
+    --max-fps=60 \
+    --window-title="Minecraft Mobile - $DEVICE_MODEL" \
+    "$@"; then
+    
+    echo -e "\n${YELLOW}UHID mode exited. If mouse control had issues, you can run in standard mode:${RESET}"
+    echo -e "  ${BOLD}scrcpy -S -w${RESET}"
+fi
+
+echo -e "\n${GREEN}Session ended.${RESET}"

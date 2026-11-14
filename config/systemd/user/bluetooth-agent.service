@@ -1,0 +1,14 @@
+[Unit]
+Description=Bluetooth Pairing and Authentication Agent for Hyprland
+After=default.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/fuckwindows/.config/hypr/scripts/bluetooth-agent.py
+Restart=always
+RestartSec=2
+Environment=PATH=/usr/local/bin:/usr/bin
+Environment=XDG_CURRENT_DESKTOP=Hyprland
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,12 @@
+[package]
+name = "app-launcher"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+gtk4 = { version = "0.10", features = ["v4_12"] }
+mlua = { version = "0.10", features = ["lua54", "vendored"] }
+
+[profile.release]
+strip = true
+lto = true

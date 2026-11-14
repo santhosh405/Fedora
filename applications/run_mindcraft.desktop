@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Minecraft Mobile (USB PC Cast)
+Comment=Play Minecraft Mobile on PC with keyboard and mouse over USB
+Exec=/home/fuckwindows/.local/bin/run_mindcraft
+Icon=/home/fuckwindows/.local/share/scrcpy/scrcpy.png
+Terminal=true
+Type=Application
+Categories=Game;Utility;
+Keywords=minecraft;scrcpy;android;mirror;mobile;

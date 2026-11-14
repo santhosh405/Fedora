@@ -1,0 +1,157 @@
+[
+  {
+    "name": "topbar",
+    "layer": "top",
+    "position": "top",
+    "exclusive": true,
+    "margin-top": 0,
+    "margin-bottom": 0,
+    "spacing": 4,
+
+    "modules-left": [
+      "custom/launcher",
+      "hyprland/window"
+    ],
+
+    "modules-center": [
+      "clock"
+    ],
+
+    "modules-right": [
+      "cpu",
+      "temperature",
+      "custom/clipboard",
+      "network",
+      "bluetooth",
+      "pulseaudio",
+      "backlight",
+      "battery",
+      "custom/logout"
+    ],
+
+    "custom/launcher": {
+      "format": "",
+      "tooltip-format": "Fedora Application Launcher",
+      "on-click": "wofi --show drun"
+    },
+
+    "hyprland/window": {
+      "format": "{}",
+      "max-length": 55,
+      "separate-outputs": true
+    },
+
+    "clock": {
+      "tooltip": false,
+      "format": "{:%A, %b %d  %I:%M %p}",
+      "interval": 1
+    },
+
+    "cpu": {
+      "interval": 2,
+      "format": "| Usage  {usage}%",
+      "max-length": 18
+    },
+
+    "temperature": {
+      "thermal-zone": 5,
+      "critical-threshold": 80,
+      "format": "{icon}  {temperatureC}°C",
+      "format-critical": "  {temperatureC}°C",
+      "format-icons": ["", "", "", "", ""],
+      "tooltip": false
+    },
+
+    "network": {
+      "format-wifi": "󰤢  {essid}",
+      "format-ethernet": "󰈀  Connected",
+      "format-disconnected": "󰤠  Disconnected",
+      "interval": 5,
+      "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
+      "on-click": "nm-connection-editor"
+    },
+
+    "bluetooth": {
+      "format": "󰂯",
+      "format-disabled": "󰂲",
+      "format-off": "󰂲",
+      "format-connected": "󰂱  {device_alias}",
+      "format-connected-battery": "󰂱  {device_alias} {device_battery_percentage}%",
+      "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+      "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+      "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+      "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+      "on-click": "/home/fuckwindows/.config/waybar/bluetooth-menu.sh",
+      "on-click-right": "rfkill toggle bluetooth",
+      "on-click-middle": "env XDG_CURRENT_DESKTOP=GNOME gnome-control-center bluetooth"
+    },
+
+    "backlight": {
+      "format": "{icon}  {percent}%",
+      "format-icons": ["", "󰃜", "󰃛", "󰃞", "󰃝", "󰃟", "󰃠"],
+      "tooltip": false
+    },
+
+    "pulseaudio": {
+      "format": "{icon}  {volume}%",
+      "format-muted": "  Muted",
+      "format-icons": {
+        "default": ["", "", " "]
+      },
+      "on-click": "pavucontrol"
+    },
+
+    "battery": {
+      "interval": 5,
+      "states": {
+        "warning": 30,
+        "critical": 15
+      },
+      "format": "{icon}  {capacity}%",
+      "format-full": "{icon}  {capacity}%",
+      "format-charging": "  {capacity}%",
+      "format-plugged": "  {capacity}%",
+      "format-icons": ["", "", "", "", ""]
+    },
+
+    "custom/clipboard": {
+      "format": "󰅍",
+      "tooltip": false,
+      "on-click": "cliphist list | wofi --dmenu | cliphist decode | wl-copy"
+    },
+
+    "custom/logout": {
+      "tooltip": false,
+      "on-click": "wlogout -b 6 -c 15 -r 15",
+      "format": ""
+    }
+  },
+  {
+    "name": "dock",
+    "layer": "top",
+    "position": "bottom",
+    "exclusive": true,
+    "margin-bottom": 10,
+    "spacing": 6,
+
+    "modules-center": [
+      "custom/dock-launcher",
+      "wlr/taskbar"
+    ],
+
+    "custom/dock-launcher": {
+      "format": "󰀻",
+      "tooltip-format": "Applications",
+      "on-click": "wofi --show drun"
+    },
+
+    "wlr/taskbar": {
+      "format": "{icon}",
+      "icon-size": 32,
+      "tooltip-format": "{title}",
+      "on-click": "activate",
+      "on-click-middle": "close",
+      "ignore-list": []
+    }
+  }
+]

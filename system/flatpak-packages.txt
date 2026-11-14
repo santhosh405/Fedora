@@ -1,0 +1,12 @@
+Spotify	com.spotify.Client	1.2.95.453.g0eeebbed	stable
+Obsidian	md.obsidian.Obsidian	1.14.5	stable
+Freedesktop Platform	org.freedesktop.Platform	freedesktop-sdk-25.08.17	25.08
+Freedesktop Platform	org.freedesktop.Platform	freedesktop-sdk-26.08.4	26.08
+Mesa	org.freedesktop.Platform.GL.default	26.2.2	25.08
+Mesa (Extra)	org.freedesktop.Platform.GL.default	26.2.2	25.08-extra
+Mesa	org.freedesktop.Platform.GL.default	26.2.5	26.08
+Mesa (Extra)	org.freedesktop.Platform.GL.default	26.2.5	26.08-extra
+Intel VAAPI driver	org.freedesktop.Platform.VAAPI.Intel		25.08
+Intel VAAPI driver	org.freedesktop.Platform.VAAPI.Intel		26.08
+Codecs Extra Extension	org.freedesktop.Platform.codecs-extra		25.08-extra
+Codecs Extra Extension	org.freedesktop.Platform.codecs-extra		26.08-extra

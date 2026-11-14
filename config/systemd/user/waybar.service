@@ -1,0 +1,14 @@
+[Unit]
+Description=Waybar for Hyprland
+After=default.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/waybar
+Restart=always
+RestartSec=1
+Environment=PATH=/home/fuckwindows/.local/bin:/usr/local/bin:/usr/bin
+Environment=XDG_CURRENT_DESKTOP=Hyprland
+
+[Install]
+WantedBy=default.target

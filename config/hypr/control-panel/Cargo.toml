@@ -1,0 +1,13 @@
+[package]
+name = "hypr-control-panel"
+version = "0.1.0"
+edition = "2021"
+description = "Control panel for Hyprland - refresh rate, wifi, bluetooth, brightness"
+
+[dependencies]
+gtk4 = { version = "0.10", features = ["v4_12"] }
+serde_json = "1.0"
+
+[profile.release]
+opt-level = 3
+strip = true

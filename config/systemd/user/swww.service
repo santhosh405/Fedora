@@ -1,0 +1,14 @@
+[Unit]
+Description=swww Wayland wallpaper daemon
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/home/fuckwindows/.local/bin/swww-daemon
+Restart=always
+RestartSec=1
+Environment=PATH=/home/fuckwindows/.local/bin:/usr/local/bin:/usr/bin
+
+[Install]
+WantedBy=default.target

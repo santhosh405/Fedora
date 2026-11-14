@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Wrapper for fastfetch handling 'fast', 'fast fetch', etc.
+if [ "$1" = "fetch" ]; then
+    shift
+fi
+exec /usr/bin/fastfetch "$@"

@@ -1,0 +1,72 @@
+/* ===============================
+   Wofi Glass / Frosted Dark Theme
+   =============================== */
+
+* {
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    text-shadow: none;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 15px;
+    color: #ffffff;
+}
+
+window {
+    background-color: rgba(17, 17, 17, 0.85);
+    border-radius: 14px;
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+#outer-box {
+    margin: 5px;
+    border: none;
+    background-color: transparent;
+}
+
+#input {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+#prompt {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-right: 10px;
+}
+
+#entry {
+    background-color: transparent;
+    border-radius: 8px;
+    margin: 3px 0;
+    padding: 8px 12px;
+    transition: background-color 0.15s ease-in-out;
+}
+
+#entry:selected,
+#entry:focus {
+    background-color: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#text {
+    color: #ffffff;
+    font-size: 15px;
+    margin-left: 10px;
+}
+
+#img {
+    -gtk-icon-size: 32px;
+    border-radius: 6px;
+}
+
+#scroll {
+    margin: 5px 0;
+}

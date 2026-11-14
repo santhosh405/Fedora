@@ -1,0 +1,268 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "spacing": 2,
+
+    "modules-left": [
+
+    "custom/launcher",
+
+    "hyprland/workspaces",
+
+    "hyprland/submap",
+
+    "custom/sysinfo",
+
+    "hyprland/window"
+],
+    "modules-center": ["clock"],
+
+    "modules-right": [
+
+    "cpu",
+
+    "temperature",
+
+    "memory",
+
+    "custom/gpu",
+
+    "custom/fan",
+
+    "custom/cava",
+
+    "pulseaudio",
+    "battery",
+    "custom/wifi",
+
+    "tray",
+
+    "custom/notification",
+
+    "custom/power"
+],
+
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "on-click": "activate",
+        "format": "{icon}",
+        "format-icons": {
+            "1": "󰈹",
+            "2": "󰨞",
+            "3": "",
+            "4": "",
+            "5": "",
+            "urgent": "",
+            "default": "",
+            "org.mozilla.firefox": "󰈹",
+            "firefox": "󰈹",
+            "brave-browser": "",
+            "google-chrome": "",
+            "chromium": "",
+            "code": "󰨞",
+            "Code": "󰨞",
+            "Alacritty": "",
+            "kitty": "",
+            "spotify": "",
+            "discord": "󰙯",
+            "TelegramDesktop": "",
+            "obsidian": "󰠮",
+            "steam": "",
+            "org.gnome.Nautilus": "󰉋",
+            "thunar": "󰉋",
+            "pavucontrol": "󰕾",
+            "btop": "",
+            "org.gnome.Settings": "󰒓",
+            "nm-connection-editor": "󱛇"
+        },
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": []
+        }
+    },
+
+    "hyprland/submap": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+
+    "hyprland/window": {
+        "format": "{}",
+        "max-length": 20,
+        "truncate": "end",
+        "separate-outputs": true
+    },
+
+    "cpu": {
+    "format": "  {usage}%",
+    "tooltip": true,
+    "interval": 2,
+    "on-click": "hyprctl dispatch exec '[float] kitty -e btop'",
+    "on-click-right": "notify-send 'CPU' \"$(grep 'model name' /proc/cpuinfo | head -1 | cut -d':' -f2)\""
+},
+
+    "temperature": {
+    "thermal-zone": 5,
+    "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
+    "input-filename": "temp1_input",
+    "critical-threshold": 80,
+    "format": "{icon} {temperatureC}°C",
+    "format-critical": " {temperatureC}°C",
+    "format-icons": ["", "", "", "", ""],
+    "interval": 2,
+    "tooltip": true,
+    "on-click": "hyprctl dispatch exec '[float] kitty -e btop'"
+},
+
+    "memory": {
+    "format": "  {}%",
+    "on-click": "hyprctl dispatch exec 'kitty -e btop'"
+},
+
+    "pulseaudio": {
+    "format": "{icon}  {volume}%",
+    "format-muted": "󰖁 Muted",
+    "scroll-step": 2,
+    "on-click": "pavucontrol",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-"
+    },
+    "custom/wifi": {
+    "exec": "/home/fuckwindows/.config/hypr/waybar/wifi-module/target/release/wifi-module",
+    "return-type": "json",
+    "interval": 10,
+    "on-click": "/home/fuckwindows/.config/hypr/waybar/wifi-module/target/release/wifi-module --menu",
+    "on-click-right": "/home/fuckwindows/.config/hypr/waybar/wifi-module/target/release/wifi-module --details",
+    "on-click-middle": "/home/fuckwindows/.config/hypr/waybar/wifi-module/target/release/wifi-module --toggle",
+    "tooltip": false
+},
+
+    "battery": {
+
+    "states": {
+        "warning": 30,
+        "critical": 15
+    },
+
+    "format": "{icon} {capacity}%",
+
+    "format-charging": "󰂄 {capacity}%",
+
+    "format-icons": [
+        "󰁺",
+        "󰁻",
+        "󰁼",
+        "󰁽",
+        "󰁾"
+    ],
+
+    "on-click": "xfce4-power-manager-settings",
+
+    "on-click-right": "notify-send Battery \"$(upower -i $(upower -e | grep BAT) | grep time)\""
+},
+
+    "clock": {
+
+    "locale":"en_US.UTF-8",
+
+    "format":" {:%I:%M %p}",
+
+    "tooltip-format":"<big>{:%A, %d %B %Y}</big>\n<tt>{calendar}</tt>",
+
+    "on-click":"gnome-calendar",
+
+    "on-click-right":"notify-send \"$(date)\""
+},
+    "tray": {
+    "spacing": 10,
+    "icon-size": 18
+},
+
+    "custom/notification": {
+        "tooltip": false,
+        "format": "{icon} {0}",
+        "format-icons": {
+            "notification": "<span foreground='#eb6f92'><sup></sup></span>",
+            "none": "",
+            "dnd-notification": "<span foreground='#eb6f92'><sup></sup></span>",
+            "dnd-none": "",
+            "inhibited-notification": "<span foreground='#eb6f92'><sup></sup></span>",
+            "inhibited-none": "",
+            "dnd-inhibited-notification": "<span foreground='#eb6f92'><sup></sup></span>",
+            "dnd-inhibited-none": ""
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "hyprctl dispatch exec 'swaync-client -t -sw'",
+        "on-click-right": "hyprctl dispatch exec 'swaync-client -d -sw'",
+        "escape": true
+    },
+
+    "custom/sysinfo": {
+
+    "exec":"~/.config/hypr/waybar/sys_info.sh",
+
+    "return-type":"json",
+
+    "interval":2,
+
+    "tooltip":true,
+
+    "on-click":"kitty -e btop",
+
+    "on-click-right":"kitty -e fastfetch"
+},
+
+"custom/gpu": {
+
+    "exec":"~/.config/hypr/waybar/gpu_info.sh",
+
+    "return-type":"json",
+
+    "interval":2,
+
+    "tooltip":true,
+
+    "on-click":"nvidia-settings",
+
+    "on-click-right":"~/.config/hypr/waybar/gpu_notify.sh"
+},
+
+"custom/fan": {
+
+    "exec":"~/.config/hypr/waybar/fan_control.sh",
+
+    "return-type":"json",
+
+    "interval":2,
+
+    "tooltip":true,
+
+    "on-click":"bash ~/.config/hypr/scripts/fan_control.sh up",
+
+    "on-click-right":"bash ~/.config/hypr/waybar/fan_notify.sh"
+},
+"custom/cava": {
+    "exec": "/home/fuckwindows/.config/hypr/waybar/cava-waybar.sh",
+    "return-type": "json",
+    "interval": 0,
+    "tooltip": true,
+    "on-click": "pavucontrol"
+},
+"custom/power": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "~/.config/rofi/powermenu.sh"
+},
+"custom/launcher": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "walker"
+}
+}

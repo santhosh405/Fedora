@@ -1,0 +1,216 @@
+@import "/home/fuckwindows/.cache/wal/colors-waybar.css";
+
+* {
+  font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", sans-serif;
+  font-size: 13px;
+  min-height: 0;
+  padding: 0;
+}
+
+/* Base Bar Styling */
+#waybar {
+  background: transparent;
+  color: @foreground;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* --- TOP BAR STYLING --- */
+#waybar.topbar {
+  background-color: rgba(14, 10, 18, 0.85);
+  border-bottom: 2px solid rgba(255, 26, 64, 0.5);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  padding: 0;
+}
+
+#custom-launcher {
+  color: #3878ff;
+  font-size: 18px;
+  padding: 0.2rem 0.8rem;
+  margin: 4px 6px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+#custom-launcher:hover {
+  background-color: rgba(56, 120, 255, 0.25);
+  color: #70a1ff;
+}
+
+#window {
+  color: #f1f1f1;
+  font-weight: 500;
+  padding: 0.2rem 0.6rem;
+  margin: 4px 0;
+}
+
+#clock {
+  background-color: rgba(22, 14, 28, 0.7);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.3rem 1.1rem;
+  margin: 4px 0;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 26, 64, 0.25);
+  transition: all 0.2s ease;
+}
+
+#clock:hover {
+  background-color: #ff1a40;
+  color: #ffffff;
+}
+
+#cpu,
+#temperature,
+#custom-clipboard,
+#network,
+#bluetooth,
+#pulseaudio,
+#backlight,
+#battery,
+#custom-logout {
+  background-color: rgba(22, 14, 28, 0.7);
+  color: @foreground;
+  padding: 0.3rem 0.7rem;
+  margin: 4px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+}
+
+#cpu {
+  color: #ff3366;
+  font-weight: 600;
+  margin-left: 6px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#temperature {
+  color: #ffaa33;
+  font-weight: 600;
+}
+
+#temperature.critical {
+  color: #f87171;
+}
+
+#battery {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  margin-right: 6px;
+}
+
+#custom-logout {
+  color: #ff1a40;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 26, 64, 0.3);
+  margin-right: 8px;
+  padding: 0.3rem 0.7rem;
+}
+
+#custom-logout:hover {
+  background-color: #ff1a40;
+  color: #ffffff;
+}
+
+#cpu:hover,
+#temperature:hover,
+#custom-clipboard:hover,
+#network:hover,
+#bluetooth:hover,
+#pulseaudio:hover,
+#backlight:hover,
+#battery:hover {
+  background-color: rgba(255, 26, 64, 0.3);
+  color: #ffffff;
+}
+
+#bluetooth {
+  color: #3878ff;
+}
+
+#bluetooth.connected {
+  color: #4ade80;
+}
+
+#bluetooth.off,
+#bluetooth.disabled {
+  color: #777777;
+}
+
+#network.disconnected {
+  color: #ff3333;
+}
+
+#battery.charging {
+  color: #4ade80;
+}
+
+#battery.warning:not(.charging) {
+  color: #fbbf24;
+}
+
+#battery.critical:not(.charging) {
+  color: #f87171;
+}
+
+/* --- BOTTOM FLOATING DOCK STYLING --- */
+#waybar.dock {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+#waybar.dock .modules-center {
+  background-color: rgba(16, 11, 20, 0.92);
+  border: 1px solid rgba(255, 26, 64, 0.45);
+  border-radius: 18px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 26, 64, 0.35);
+  padding: 4px 14px;
+}
+
+#custom-dock-launcher {
+  color: #ff1a40;
+  font-size: 20px;
+  padding: 4px 8px;
+  margin-right: 6px;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+#custom-dock-launcher:hover {
+  background-color: rgba(255, 26, 64, 0.3);
+  color: #ffffff;
+}
+
+#wlr-taskbar button {
+  padding: 4px 8px;
+  margin: 2px 4px;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+#wlr-taskbar button:hover {
+  background-color: rgba(255, 26, 64, 0.25);
+}
+
+#wlr-taskbar button.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-bottom: 3px solid #ff1a40;
+}
+
+/* Tooltips */
+tooltip {
+  background-color: rgba(16, 11, 20, 0.95);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 26, 64, 0.4);
+  font-size: 12px;
+}
